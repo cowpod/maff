@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "~4",
-    "ws": "~8",
+    "ws": "~8"
   }
 }
