@@ -43,14 +43,32 @@
   border-radius: 10px; /* Rounded corners for the container */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
+.upper-half {
+  display: flex;
+  justify-content: space-around;
+  
+}
+.operator-display {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  padding-right: 1em;
 
-/* Display styles for numbers */
-.number-display, .operator-display {
-  font-size: 36px; /* Increase font size for better visibility */
+}
+
+.values-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+}
+
+.first-number, .second-number, .operator-display {
+  font-size: 48px; /* Increase font size for better visibility */
   font-weight: bold; /* Make text bold */
   margin: 10px 0; /* Add vertical spacing */
   color: #2e8b57; /* Dark green text color */
 }
+
 
 /* Input styles */
 .answer-input {
@@ -91,7 +109,7 @@
 .separator {
   width: 100%; /* Full width */
   border: none; /* Remove default border */
-  height: 1px; /* Set height for the line */
+  height: 4px; /* Set height for the line */
   background-color: #ff6347; /* Tomato color for the line */
   margin: 20px 0; /* Add margin above and below */
 }

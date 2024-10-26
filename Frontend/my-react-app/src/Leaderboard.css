@@ -3,7 +3,7 @@
     width: 80%; /* Set a width for the table */
     margin: 20px auto; /* Center the table horizontally */
     border-collapse: collapse; /* Collapse borders for a cleaner look */
-    background-color: #fff9e6; /* Light yellow background for the table */
+    background-color: #97c1eb; /* Light yellow background */
     border-radius: 10px; /* Rounded corners for the table */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
@@ -11,6 +11,7 @@
 /* Table header styles */
 .leaderboard-header {
     background-color: #3cb371; /* Medium sea green for header background */
+    border-radius: 10px;
 }
 
 /* Table header cell styles */

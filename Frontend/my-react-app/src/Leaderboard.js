@@ -8,15 +8,18 @@ const fetchLeaderboard = async () => {
   if (!apiRes.ok) {
     throw new Error("Error fetching Leaderboard data");
   }
-  return apiRes.json();
+  const response = apiRes.json();
+  console.log(response);
+  return response;
 }
 
 const Leaderboard = () => {
-    const { data: LeaderboardData, error, isLoading } = useQuery({'Leaderboard': fetchLeaderboard});
+    const { data: LeaderboardData = [], isLoading, error } = useQuery({queryFn: fetchLeaderboard});
 
     if (isLoading) return <div>Loading Leaderboard...</div>;
     if (error) return <div>An error occurred: {error.message}</div>;
 
+    // console.log(data)
     return (
         <table className="leaderboard-table">
             <thead className="leaderboard-header">
