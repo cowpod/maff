@@ -1,12 +1,9 @@
+const PORT = 4000;
+
+const ws = require('ws');
 const express = require('express');
 const app = express();
-const PORT = 3000;
-
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello, this is your GET endpoint!');
-});
+const questionGen = require('./questionGeneration');
 
 class Question{
   constructor(full,num1,num2,ans,op){
@@ -18,86 +15,51 @@ class Question{
   }
 }
 
-function getRandomInt(max) {
-  n = Math.floor(Math.random() * max);
-  return n;
-}
+app.use(express.json());
 
-function getDivisionQuestion(multiplier=1) {
-  let secondNum = getRandomInt(1000)*multiplier;
-  let answer = getRandomInt(100)*multiplier;
-  let firstNum = answer * secondNum;
-  return new Question(
-    `${firstNum} / ${secondNum} = ${answer}`,
-    firstNum,
-    secondNum,
-    answer,
-    '/'
-  )
-}
+app.get('/', (req, res) => {
+  res.send('Hello, this is your GET endpoint!');
+});
 
-function getMultiplcationQuestion(multiplier=1) {
-  let firstNum = getRandomInt(1000)*multiplier;
-  let secondNum = getRandomInt(1000)*multiplier;
-  let answer = firstNum * secondNum;
-  return new Question(
-    `${firstNum} * ${secondNum} = ${answer}`,
-    firstNum,
-    secondNum,
-    answer,
-    'x'
-  ) 
-}
-
-function getAdditionQuestion(multiplier=1) {
-  let firstNum = getRandomInt(1000)*multiplier;
-  let secondNum = getRandomInt(1000)*multiplier;
-  let answer = firstNum + secondNum;
-  return new Question(
-    `${firstNum} + ${secondNum} = ${answer}`,
-    firstNum,
-    secondNum,
-    answer,
-    '+'
-  ) 
-}
-
-function getSubtractionQuestion(multiplier=1) {
-  let firstNum = getRandomInt(1000)*multiplier;
-  let secondNum = getRandomInt(1000)*multiplier;
-  let answer = firstNum - secondNum;
-  return new Question(
-    `${firstNum} - ${secondNum} = ${answer}`,
-    firstNum,
-    secondNum,
-    answer,
-    '-'
-  ) 
-}
-
-const questionGenerators = [getMultiplcationQuestion, getDivisionQuestion, getAdditionQuestion, getSubtractionQuestion];
-
-function getRandomQuestion() {
-  let q = questionGenerators[getRandomInt(questionGenerators.length-1)];
-  console.log(q());
-  return q;
-}
-
-// Define a GET endpoint
 app.get('/question', (req, res) => {
   const { amount } = req.query;
   let questions = [];
   let i = 0;
   
   while (i < amount) {
-    questions.push(getRandomQuestion()())
+    questions.push(questionGen()())
     i++;
   }
   
+  console.log(req.originalUrl);
   res.send(questions)
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+let sockets=[];
+const socket_server = new ws.Server({ noServer: true });
+
+//https://masteringjs.io/tutorials/node/websocket-server
+socket_server.on('connection', socket => {
+  sockets.push(socket);
+
+  // forward received message to ALL sockets
+  socket.on('message', function(msg) {
+    console.log(`socket: forwarding message: ${msg}`);
+    sockets.forEach(s => s.send(msg));
+  });
+
+  // remove socket on close
+  socket.on('close', function() {
+    sockets = sockets.filter(s => s !== socket);
+  });
+});
+
+const http_server = app.listen(PORT, () => {
+  console.log(`HTTP server is running on http://localhost:${PORT}`);
+});
+
+http_server.on('upgrade', (request, socket, head) => {
+  socket_server.handleUpgrade(request, socket, head, socket => {
+    socket_server.emit('connection', socket, request);
+  });
 });
