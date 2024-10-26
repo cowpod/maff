@@ -5,16 +5,6 @@ const express = require('express');
 const app = express();
 const questionGen = require('./questionGeneration');
 
-class Question{
-  constructor(full,num1,num2,ans,op){
-    this.fullString=full;
-    this.firstNumber=num1;
-    this.secondNumber=num2;
-    this.answer=ans;
-    this.operator=op;
-  }
-}
-
 app.use(express.json());
 
 app.get('/', (req, res) => {
