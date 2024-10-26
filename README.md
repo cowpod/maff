@@ -109,13 +109,3 @@ id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL,
 score INTEGER NOT NULL
 ```
-
-## Server WebSocket Connections
-
-The server supports WebSockets for real-time updates, connecting clients and broadcasting messages across connections.
-
-### Socket Events
-
-- Connection: Adds the new client socket to the pool.
-- Message: Forwards any received messages to all connected sockets.
-- Close: Removes disconnected sockets from the pool.
