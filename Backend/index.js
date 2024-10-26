@@ -2,10 +2,12 @@ const PORT = 4000;
 
 const ws = require('ws');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const questionGen = require('./questionGeneration');
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Quack you');
@@ -18,7 +20,7 @@ app.get('/question', (req, res) => {
   for (var i=0;i<amount;i++) {
     questions.push(questionGen()());
   }
-  
+
   console.log(req.originalUrl);
   res.send(questions)
 });
