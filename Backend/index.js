@@ -8,17 +8,15 @@ const questionGen = require('./questionGeneration');
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Hello, this is your GET endpoint!');
+  res.send('Quack you');
 });
 
 app.get('/question', (req, res) => {
   const { amount } = req.query;
   let questions = [];
-  let i = 0;
-  
-  while (i < amount) {
-    questions.push(questionGen()())
-    i++;
+
+  for (var i=0;i<amount;i++) {
+    questions.push(questionGen()());
   }
   
   console.log(req.originalUrl);
@@ -32,13 +30,11 @@ const socket_server = new ws.Server({ noServer: true });
 socket_server.on('connection', socket => {
   sockets.push(socket);
 
-  // forward received message to ALL sockets
   socket.on('message', function(msg) {
-    console.log(`socket: forwarding message: ${msg}`);
+    console.log(`socket: forwarding message to other sockets: ${msg}`);
     sockets.forEach(s => s.send(msg));
   });
 
-  // remove socket on close
   socket.on('close', function() {
     sockets = sockets.filter(s => s !== socket);
   });
@@ -50,6 +46,7 @@ const http_server = app.listen(PORT, () => {
 
 http_server.on('upgrade', (request, socket, head) => {
   socket_server.handleUpgrade(request, socket, head, socket => {
+    console.log('socket upgraded');
     socket_server.emit('connection', socket, request);
   });
 });
