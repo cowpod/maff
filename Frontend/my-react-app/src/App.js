@@ -1,89 +1,121 @@
-import './App.css';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import "./App.css";
+import Leaderboard from "./Leaderboard.js";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const fetchQuestions = async ({ queryAmount, queryDiff }) => {
-  // if (!animal) return [];
-
-  const apiRes = await fetch(
-    `http://127.0.0.1/question?amount=10`
-    // &difficulty=${queryDiff}`
-  );
-
+  const apiRes = await fetch(`http://127.0.0.1:4000/question?amount=10`);
   if (!apiRes.ok) {
-    throw new Error(`details/${queryAmount} ${queryDiff} fetch not ok`);
+    throw new Error(`Fetch not ok: ${apiRes.statusText}`);
   }
-
-  // const data = await apiRes.json();
-  // return data; 
-  console.log(apiRes.json)
-  
-  // return apiRes.json();
+  return apiRes.json();
 };
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-
-        <DisplayProblem />
+        <div>
+            <Tutorial/>
+        </div>
+        <div className="components-container align-items">
+          <div className="flex align-items justify-content">
+            <Leaderboard/>
+            <ProblemSet />
+          </div>
+        </div>
       </header>
     </div>
   );
 }
 
+const Tutorial = () => {
+  return <div>Welcome to our Math Challenge game! Compete against friends and players worldwide by answering math questions as quickly as possible—faster responses earn you more points. Climb the leaderboard and show off your math skills to become the ultimate champion!</div>
+}
 
-// math problem display component
-const DisplayProblem = ({firstNum="20", secondNum="20", operator="+", initialAnswer="40"}) => {
+const ProblemSet = () => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [score, setScore] = useState(0);
 
-  const results = useQuery({
+  const { data: questions = [], isLoading, error } = useQuery({
     queryKey: ["search", { queryAmount: 10, queryDiff: 2 }],
     queryFn: fetchQuestions,
   });
-  // let questions = fetchQuestions();
-  //console.log(results)
 
-  // console.log(results)
+  if (isLoading) return <p>Loading questions...</p>;
+  if (error) return <p>Error fetching questions: {error.message}</p>;
 
+  const currentQuestion = questions[currentQuestionIndex];
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      alert("No more questions!");
+    }
+  };
+
+  return (
+    <DisplayProblem
+      currentQuestion={currentQuestion}
+      setCurrentQuestionIndex={setCurrentQuestionIndex}
+      handleNextQuestion={handleNextQuestion}
+      score={score}
+      setScore={setScore}
+    />
+  );
+};
+
+const DisplayProblem = ({ currentQuestion, setCurrentQuestionIndex, handleNextQuestion, score, setScore }) => {
   const [answer, setAnswer] = useState("");
 
   const handleSubmit = () => {
-    // Compare the inputted answer with the initial answer
-    if (answer === initialAnswer) {
+    if (currentQuestion.answer === parseInt(answer)) {
       alert("Correct!");
+      setScore(score + 1); // Increment score if correct
+      handleNextQuestion();
+      setAnswer(""); // Clear input after submission
     } else {
-      alert("you fucking suck");
+      alert("Try Again.");
     }
   };
 
   const handleKeyPress = (e) => {
-    // Check if the pressed key is Enter
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit();
     }
   };
 
   const skip = () => {
-    alert("skipped you fucking loser")
-  }
+    alert("Skipped");
+    handleNextQuestion(); // Skip to the next question
+  };
 
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>An error occurred: {error.message}</div>;
-  
-  
+  if (!currentQuestion) return <p>No questions available</p>;
+
   return (
-    <div className="flex flex-col"> 
-      <div className="content-center">{firstNum}</div>
-      <div className="content-center">{operator} {secondNum}</div>
-      {/* insert line break  */}
-      <hr /> 
-      <input className="border-2 border-black mb-3" type="text" value={answer} onKeyPress={handleKeyPress} onChange={(e) => setAnswer(e.target.value)} />
-    
-      <button className="border-2 border-black content-center mb-3" onClick={handleSubmit}>Submit</button>
-      <button className="border-2 border-black content-center" onClick={skip}>Skip</button>
+    <div className="problem-container">
+      <div className="number-display">{currentQuestion.firstNumber}</div>
+      <div className="operator-display">
+        {currentQuestion.operator} {currentQuestion.secondNumber}
+      </div>
+      <hr className="separator" />
+      <input
+        className="answer-input"
+        type="text"
+        value={answer}
+        onKeyPress={handleKeyPress}
+        onChange={(e) => setAnswer(e.target.value)}
+      />
+      <button className="submit-button" onClick={handleSubmit}>
+        Submit
+      </button>
+      <button className="skip-button" onClick={skip}>
+        Skip
+      </button>
+      <div>score {score}</div>
     </div>
-  )
-}
+  );
+};
 
 export default App;

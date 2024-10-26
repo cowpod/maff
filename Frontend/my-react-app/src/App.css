@@ -7,12 +7,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: white;
   min-height: 100vh;
@@ -24,15 +18,80 @@
   color: black;
 }
 
-.App-link {
-  color: #61dafb;
+.components-container {
+  display: flex; /* Enable Flexbox */
+  justify-content: space-around; /* Space between components */
+  align-items: flex-start; /* Align items at the start */
+  margin: 20px; /* Margin around the container */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.DisplayProblem, .Leaderboard {
+  flex: 1; /* Allow both components to grow equally */
+  margin: 10px; /* Margin between components */
+  min-width: 300px; /* Minimum width for each component */
+}
+
+/* Container styles */
+.problem-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  margin: 20px; /* Add some margin for spacing */
+  background-color: #97c1eb; /* Light yellow background */
+  padding: 20px; /* Add some padding for the container */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Display styles for numbers */
+.number-display, .operator-display {
+  font-size: 36px; /* Increase font size for better visibility */
+  font-weight: bold; /* Make text bold */
+  margin: 10px 0; /* Add vertical spacing */
+  color: #2e8b57; /* Dark green text color */
+}
+
+/* Input styles */
+.answer-input {
+  width: 220px; /* Set a fixed width for the input */
+  padding: 10px; /* Add some padding for better touch targets */
+  border: 2px solid #ff6f61; /* Coral border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 18px; /* Increase font size for the input */
+  transition: border-color 0.3s; /* Smooth border color transition */
+}
+
+/* Input focus effect */
+.answer-input:focus {
+  outline: none; /* Remove default outline */
+  border-color: #ff1493; /* Deep pink border on focus */
+}
+
+/* Button styles */
+.submit-button, .skip-button {
+  width: 120px; /* Set a fixed width for buttons */
+  padding: 10px; /* Add padding for better touch targets */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #3cb371; /* Medium sea green background */
+  color: white; /* White text color */
+  font-size: 18px; /* Increase font size for buttons */
+  cursor: pointer; /* Change cursor on hover */
+  margin: 5px; /* Add some margin between buttons */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+/* Button hover effect */
+.submit-button:hover, .skip-button:hover {
+  background-color: #228b22; /* Forest green on hover */
+}
+
+/* Horizontal rule styles */
+.separator {
+  width: 100%; /* Full width */
+  border: none; /* Remove default border */
+  height: 1px; /* Set height for the line */
+  background-color: #ff6347; /* Tomato color for the line */
+  margin: 20px 0; /* Add margin above and below */
 }

@@ -1,0 +1,55 @@
+/* Leaderboard table styles */
+.leaderboard-table {
+    width: 80%; /* Set a width for the table */
+    margin: 20px auto; /* Center the table horizontally */
+    border-collapse: collapse; /* Collapse borders for a cleaner look */
+    background-color: #fff9e6; /* Light yellow background for the table */
+    border-radius: 10px; /* Rounded corners for the table */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Table header styles */
+.leaderboard-header {
+    background-color: #3cb371; /* Medium sea green for header background */
+}
+
+/* Table header cell styles */
+.leaderboard-header-cell {
+    padding: 12px; /* Padding for table header cells */
+    text-align: left; /* Align text to the left */
+    font-weight: bold; /* Make header text bold */
+    color: white; /* White text color for header */
+}
+
+/* Table body styles */
+.leaderboard-body {
+    border-bottom: 1px solid #ff6347; /* Tomato color for row separators */
+}
+
+/* Table body row styles */
+.leaderboard-row {
+    border-bottom: 1px solid #ff6347; /* Tomato color for row separators */
+}
+
+/* Table body cell styles */
+.leaderboard-cell {
+    padding: 10px; /* Padding for table body cells */
+    color: #2e8b57; /* Dark green text color */
+}
+
+/* Table body row hover effect */
+.leaderboard-row:hover {
+    background-color: #ffe5b4; /* Light orange background on hover */
+    cursor: pointer; /* Change cursor on hover */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .leaderboard-table {
+        width: 100%; /* Full width on smaller screens */
+    }
+
+    .leaderboard-header-cell, .leaderboard-cell {
+        font-size: 14px; /* Adjust font size for better readability on mobile */
+    }
+}
