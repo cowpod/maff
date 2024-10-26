@@ -14,8 +14,8 @@ async function getLeaderboard() {
     return data;
 }
 
-async function saveNewScore(name, score) {
-    await db.execute(`INSERT INTO leaderboard (name,score) VALUES (${name},${score});`)
+function saveNewScore(name, score) {
+    db.execute(`INSERT INTO leaderboard (name,score) VALUES (${name},${score});`);
 }
 
 module.exports = {getLeaderboard, saveNewScore};

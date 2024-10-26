@@ -35,6 +35,13 @@ app.get('/leaderboard', async (req, res) => {
   res.send(top)
 });
 
+app.post('/submitscore', (req, res) => {
+  const { name, score } = req.body;
+  console.log(`Received data: Name - ${name}, Score - ${score}`);
+  leaderboards.saveNewScore(name,score);
+  // res.send(`Data received: Name - ${name}, Age - ${age}`);
+});
+
 let sockets=[];
 const socket_server = new ws.Server({ noServer: true });
 
