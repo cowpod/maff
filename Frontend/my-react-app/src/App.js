@@ -1,10 +1,28 @@
 import './App.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+const fetchQuestions = async ({ queryAmount, queryDiff }) => {
+  // if (!animal) return [];
+
+  const apiRes = await fetch(
+    `http://127.0.0.1/question?amount=10`
+    // &difficulty=${queryDiff}`
+  );
+
+  if (!apiRes.ok) {
+    throw new Error(`details/${queryAmount} ${queryDiff} fetch not ok`);
+  }
+
+  // const data = await apiRes.json();
+  // return data; 
+  console.log(apiRes.json)
+  
+  // return apiRes.json();
+};
 
 function App() {
-  
-
   return (
     <div className="App">
       <header className="App-header">
@@ -15,8 +33,19 @@ function App() {
   );
 }
 
+
 // math problem display component
-const DisplayProblem = ({firstNum="10", secondNum="20", operator="+", initialAnswer="30"}) => {
+const DisplayProblem = ({firstNum="20", secondNum="20", operator="+", initialAnswer="40"}) => {
+
+  const results = useQuery({
+    queryKey: ["search", { queryAmount: 10, queryDiff: 2 }],
+    queryFn: fetchQuestions,
+  });
+  // let questions = fetchQuestions();
+  //console.log(results)
+
+  // console.log(results)
+
   const [answer, setAnswer] = useState("");
 
   const handleSubmit = () => {
@@ -38,21 +67,23 @@ const DisplayProblem = ({firstNum="10", secondNum="20", operator="+", initialAns
   const skip = () => {
     alert("skipped you fucking loser")
   }
+
+  // if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>An error occurred: {error.message}</div>;
   
   
   return (
-    <div> 
-      <div className="flex content-center">{firstNum}</div>
-      <div className="flex content-center">{operator} {secondNum}</div>
+    <div className="flex flex-col"> 
+      <div className="content-center">{firstNum}</div>
+      <div className="content-center">{operator} {secondNum}</div>
       {/* insert line break  */}
       <hr /> 
-      <input className="border-2" type="text" value={answer} onKeyPress={handleKeyPress} onChange={(e) => setAnswer(e.target.value)} />
+      <input className="border-2 border-black mb-3" type="text" value={answer} onKeyPress={handleKeyPress} onChange={(e) => setAnswer(e.target.value)} />
     
-      <button className="flex content-center" onClick={handleSubmit}>Submit</button>
-      <button className="flex content-center" onClick={skip}>Skip</button>
+      <button className="border-2 border-black content-center mb-3" onClick={handleSubmit}>Submit</button>
+      <button className="border-2 border-black content-center" onClick={skip}>Skip</button>
     </div>
   )
 }
 
-// /question?amount=12&difficulty=<1-3>
 export default App;
