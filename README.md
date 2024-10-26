@@ -13,6 +13,17 @@ The math questions cover four basic operations:
 - Division: Generates a question in the form a / b.
 - Questions are generated with a difficulty multiplier, which scales the range of random numbers.
 
+# Client Requirements
+
+- Tailwind CSS
+- React.JS
+
+# Client features
+
+- Math equation and prompt
+- Scoreboard (total amount correct)
+- Sounds
+
 ## Server Requirements
 - Node
 - NPM
