@@ -15,11 +15,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/question', (req, res) => {
-  const { amount } = req.query;
+  const { amount,difficulty } = req.query;
   let questions = [];
 
   for (var i=0;i<amount;i++) {
-    questions.push(questionGen()());
+    let gen = questionGen()(difficulty);
+    console.log(gen);
+    questions.push(gen);
   }
 
   console.log(req.originalUrl);
