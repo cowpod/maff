@@ -62,7 +62,22 @@
   justify-content: center; /* Center items vertically */
 }
 
-.first-number, .second-number, .operator-display {
+.score-display {
+  display: flex;
+  flex-direction: column;
+  background-color: #97c1eb;
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin: 20px; /* Add some margin for spacing */
+  font-size: 30px; /* Increase font size for better visibility */
+  font-weight: bold; /* Make text bold */
+  color: #2e8b57;
+  
+  
+
+}
+
+.first-number, .second-number, .operator-display{
   font-size: 48px; /* Increase font size for better visibility */
   font-weight: bold; /* Make text bold */
   margin: 10px 0; /* Add vertical spacing */
@@ -92,7 +107,7 @@
   padding: 10px; /* Add padding for better touch targets */
   border: none; /* Remove default border */
   border-radius: 5px; /* Rounded corners */
-  background-color: #3cb371; /* Medium sea green background */
+  background-color: #293d50;
   color: white; /* White text color */
   font-size: 18px; /* Increase font size for buttons */
   cursor: pointer; /* Change cursor on hover */

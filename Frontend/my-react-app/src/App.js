@@ -4,6 +4,8 @@ import Leaderboard from "./Leaderboard.js";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
+let volume = 1;
+
 const fetchQuestions = async ({ queryAmount, queryDiff }) => {
   const apiRes = await fetch(`http://127.0.0.1:4000/question?amount=2000`);
   if (!apiRes.ok) {
@@ -25,13 +27,15 @@ function App() {
             <ProblemSet />
           </div>
         </div>
+        Volume:
+        <input type="range" id="volumeSlider" min="0" max="100" value="100" step="1" onclick="volume = this.value/100;"></input>
       </header>
     </div>
   );
 }
 
 const Tutorial = () => {
-  return <div>Welcome to our Math Challenge game! Compete against friends and players worldwide by answering math questions as quickly as possible—faster responses earn you more points. Climb the leaderboard and show off your math skills to become the ultimate champion!</div>
+  return <div>Welcome to our Math Challenge game! Compete against friends and players worldwide by answering math stions as quickly as possible. Climb the leaderboard and show off your math skills to become the ultimate champion!</div>
 }
 
 const playBeep = (volume=1) => {
@@ -82,7 +86,9 @@ const ProblemSet = () => {
   );
 };
 
-function submitScore(playerName, score) {
+
+const submitScore = (playerName, score) => {
+  console.log(playerName, score);
   fetch("http://127.0.0.1/submitScore", {
     method: "POST",
     headers: {
@@ -96,13 +102,10 @@ function submitScore(playerName, score) {
     }
     return response.json();
   })
-  .then(data => {
-    console.log("Score submitted successfully:", data);
-  })
   .catch(error => {
     console.error("There was a problem with the fetch operation:", error);
   });
-}
+};
 
 
 const DisplayProblem = ({ currentQuestion, setCurrentQuestionIndex, handleNextQuestion, score, setScore, name, setName }) => {
@@ -113,10 +116,10 @@ const DisplayProblem = ({ currentQuestion, setCurrentQuestionIndex, handleNextQu
       // alert("Correct!");
       setScore(score + 1); // Increment score if correct
       handleNextQuestion();
-      playBoop();
+      playBoop(volume);
     } else {
       // alert("Try Again.");
-      playBeep();
+      playBeep(volume);
     }
   };
 
@@ -128,12 +131,13 @@ const DisplayProblem = ({ currentQuestion, setCurrentQuestionIndex, handleNextQu
 
   const skip = () => {
     handleNextQuestion(); // Skip to the next question
-    playBoop();
+    playBoop(volume);
   };
 
   if (!currentQuestion) return <p>No questions available</p>;
 
   return (
+    <div> 
     <div className="problem-container">
       <div className="upper-half">
         <div className="operator-display">{currentQuestion.operator}</div>
@@ -142,11 +146,6 @@ const DisplayProblem = ({ currentQuestion, setCurrentQuestionIndex, handleNextQu
           <div className="second-number">{currentQuestion.secondNumber}</div>
         </div> 
       </div>
-
-      {/* <div className="number-display">{currentQuestion.firstNumber}</div>
-      <div className="operator-display">
-        {currentQuestion.operator} {currentQuestion.secondNumber}
-      </div> */}
       <hr className="separator" />
       <input
         className="answer-input"
@@ -160,17 +159,19 @@ const DisplayProblem = ({ currentQuestion, setCurrentQuestionIndex, handleNextQu
       <button className="skip-button" onClick={skip}>
         Skip
       </button>
+    </div>
       <div className="score-display">
-        <div>score {score}</div>
-        <div>
-          <input
-            className="answer-input"
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button className="submit-button" onClick={(name, score) => submitScore()}>Submit Score</button>
+          <div>Current Score: {score}</div>
+          <div>
+            Name: 
+            <input
+              className="answer-input"
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <button className="submit-button" onClick={() => submitScore(name, score)}>Submit Score</button>
+          </div>
         </div>
-      </div>
     </div>
   );
 };
