@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const questionGen = require('./questionGeneration');
+const leaderboards = require('./leaderboard');
 
 app.use(express.json());
 app.use(cors());
@@ -23,6 +24,13 @@ app.get('/question', (req, res) => {
 
   console.log(req.originalUrl);
   res.send(questions)
+});
+
+app.get('/leaderboard', async (req, res) => {
+  let top = await leaderboards.getLeaderboard();
+  console.log(top);
+  console.log(req.originalUrl);
+  res.send(top)
 });
 
 let sockets=[];
