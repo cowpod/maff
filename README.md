@@ -13,6 +13,17 @@ The math questions cover four basic operations:
 - Division: Generates a question in the form a / b.
 - Questions are generated with a difficulty multiplier, which scales the range of random numbers.
 
+# Client Requirements
+
+- Tailwind CSS
+- React.JS
+
+# Client features
+
+- Math equation and prompt
+- Scoreboard (total amount correct)
+- Sounds
+
 ## Server Requirements
 - Node
 - NPM
@@ -109,13 +120,3 @@ id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL,
 score INTEGER NOT NULL
 ```
-
-## Server WebSocket Connections
-
-The server supports WebSockets for real-time updates, connecting clients and broadcasting messages across connections.
-
-### Socket Events
-
-- Connection: Adds the new client socket to the pool.
-- Message: Forwards any received messages to all connected sockets.
-- Close: Removes disconnected sockets from the pool.
