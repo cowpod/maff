@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "~4",
     "ws": "~8",
-    "cors": "~2"
+    "cors": "~2",
+    "sqlite3": "~5"
   }
 }
