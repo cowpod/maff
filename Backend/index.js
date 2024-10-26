@@ -36,10 +36,10 @@ app.get('/leaderboard', async (req, res) => {
 });
 
 app.post('/submitscore', (req, res) => {
-  const { name, score } = req.body;
-  console.log(`Received data: Name - ${name}, Score - ${score}`);
+  const {name,score}=req.body;
+  console.log(`${name}=${score}`);
   leaderboards.saveNewScore(name,score);
-  // res.send(`Data received: Name - ${name}, Age - ${age}`);
+  res.send(`OK`);
 });
 
 let sockets=[];
