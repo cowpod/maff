@@ -34,7 +34,7 @@ const Leaderboard = () => {
                     <tr className="leaderboard-row" key={index}>
                         <td className="leaderboard-cell">{index + 1}</td>
                         <td className="leaderboard-cell">{row.name}</td>
-                        <td className="leaderboard-cell">{row.score}</td>
+                        <td className="leaderboard-cell">{row.SCORE}</td>
                     </tr>
                 ))}
             </tbody>
