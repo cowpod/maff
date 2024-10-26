@@ -15,11 +15,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/question', (req, res) => {
-  const { amount } = req.query;
+  const { amount,difficulty } = req.query;
   let questions = [];
 
   for (var i=0;i<amount;i++) {
-    questions.push(questionGen()());
+    let gen = questionGen()(difficulty);
+    console.log(gen);
+    questions.push(gen);
   }
 
   console.log(req.originalUrl);
@@ -31,6 +33,13 @@ app.get('/leaderboard', async (req, res) => {
   console.log(top);
   console.log(req.originalUrl);
   res.send(top)
+});
+
+app.post('/submitscore', (req, res) => {
+  const { name, score } = req.body;
+  console.log(`Received data: Name - ${name}, Score - ${score}`);
+  leaderboards.saveNewScore(name,score);
+  // res.send(`Data received: Name - ${name}, Age - ${age}`);
 });
 
 let sockets=[];

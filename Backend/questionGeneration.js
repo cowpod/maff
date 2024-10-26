@@ -14,8 +14,8 @@ function getRandomInt(max) {
 }
 
 function getDivisionQuestion(multiplier=1) {
-  let secondNum = getRandomInt(1000)*multiplier;
-  let answer = getRandomInt(100)*multiplier;
+  let secondNum = getRandomInt(100*multiplier);
+  let answer = getRandomInt(10*multiplier);
   let firstNum = answer * secondNum;
   return new Question(
     `${firstNum} / ${secondNum} = ${answer}`,
@@ -27,8 +27,8 @@ function getDivisionQuestion(multiplier=1) {
 }
 
 function getMultiplcationQuestion(multiplier=1) {
-  let firstNum = getRandomInt(1000)*multiplier;
-  let secondNum = getRandomInt(1000)*multiplier;
+  let firstNum = getRandomInt(100*multiplier);
+  let secondNum = getRandomInt(100*multiplier);
   let answer = firstNum * secondNum;
   return new Question(
     `${firstNum} * ${secondNum} = ${answer}`,
@@ -40,8 +40,8 @@ function getMultiplcationQuestion(multiplier=1) {
 }
 
 function getAdditionQuestion(multiplier=1) {
-  let firstNum = getRandomInt(1000)*multiplier;
-  let secondNum = getRandomInt(1000)*multiplier;
+  let firstNum = getRandomInt(100*multiplier);
+  let secondNum = getRandomInt(100*multiplier);
   let answer = firstNum + secondNum;
   return new Question(
     `${firstNum} + ${secondNum} = ${answer}`,
@@ -53,8 +53,8 @@ function getAdditionQuestion(multiplier=1) {
 }
 
 function getSubtractionQuestion(multiplier=1) {
-  let firstNum = getRandomInt(1000)*multiplier;
-  let secondNum = getRandomInt(1000)*multiplier;
+  let firstNum = getRandomInt(100*multiplier);
+  let secondNum = getRandomInt(100*multiplier);
   let answer = firstNum - secondNum;
   return new Question(
     `${firstNum} - ${secondNum} = ${answer}`,
@@ -65,11 +65,11 @@ function getSubtractionQuestion(multiplier=1) {
   ) 
 }
 
-const questionGenerators = [getMultiplcationQuestion, getDivisionQuestion, getAdditionQuestion, getSubtractionQuestion];
-
 function getRandomQuestion() {
+  // returns function
+  let questionGenerators = [getMultiplcationQuestion, getDivisionQuestion, getAdditionQuestion, getSubtractionQuestion];
   let q = questionGenerators[getRandomInt(questionGenerators.length-1)];
-//   console.log(q());
+  // console.log(q());
   return q;
 }
 
