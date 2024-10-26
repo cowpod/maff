@@ -89,12 +89,12 @@ const ProblemSet = () => {
 
 const submitScore = (playerName, score) => {
   console.log(playerName, score);
-  fetch("http://127.0.0.1/submitScore", {
+  fetch("http://127.0.0.1:4000/submitScore", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ playerName, score })
+    body: JSON.stringify({ name: playerName, score: score })
   })
   .then(response => {
     if (!response.ok) {
