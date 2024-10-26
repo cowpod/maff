@@ -4,16 +4,9 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Define a GET endpoint
 app.get('/', (req, res) => {
   res.send('Hello, this is your GET endpoint!');
 });
-
-// Answer
-// Full String Question
-// First Number
-// Second Number
-// Operator
 
 class Question{
   constructor(full,num1,num2,ans,op){
@@ -27,7 +20,6 @@ class Question{
 
 function getRandomInt(max) {
   n = Math.floor(Math.random() * max);
-  // console.log(n)
   return n;
 }
 
