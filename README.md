@@ -120,3 +120,10 @@ id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT NOT NULL,
 score INTEGER NOT NULL
 ```
+
+# Group Members
+
+- Alexandra B
+- Chris H
+- Henry G
+- Sebastien P
